@@ -81,7 +81,10 @@ namespace csharp_scrabble_challenge.Main
                     char letter = char.Parse(item.ToString().ToUpper());
                     sum = sum + _dictionary[letter] * BonusMultiplier;
                 }
+
+               
             }
+            if (openCurly > 0 || openHard > 0) return 0;
             return sum;
         }
     }
