@@ -47,14 +47,34 @@ namespace csharp_scrabble_challenge.Main
         public int score()
         {
             int sum = 0;
+            bool openCurly = false;
+            bool openHard = false;
             int BonusMultiplier = 1; // 1 -> no bonus, 2 -> double, 3 -> triple
-            foreach (var item in _word)
+            foreach (char item in _word)
             {
-                if (char.IsWhiteSpace(new String(item, 1), 0)) break;
+                if (char.IsWhiteSpace(item)) return 0;
+                if (char.IsNumber(item)) return 0;
+                if (item == '{')
+                {
+                    openCurly = true;
+                    BonusMultiplier = BonusMultiplier * 2;
+                }
+                else if (item == '[') 
+                {
+                    openHard = true;
+                    BonusMultiplier = BonusMultiplier * 3; 
+                }
+                else if (item == '}')
+                {
 
-                if (item == '{') BonusMultiplier = 2;
-                else if (item == '[') BonusMultiplier = 3;
-                else if (item == '}' || item == ']') BonusMultiplier = 1;
+                    if (!openCurly) return 0;
+                    BonusMultiplier = BonusMultiplier / 2;
+                }
+                else if (item == ']') 
+                {
+                    if (!openHard) return 0;
+                    BonusMultiplier = BonusMultiplier / 3;
+                }
                 else
                 {
                     char letter = char.Parse(item.ToString().ToUpper());
