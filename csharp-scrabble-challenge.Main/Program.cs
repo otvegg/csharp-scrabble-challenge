@@ -7,13 +7,10 @@ Console.WriteLine("Enter a word and get the score! Add a {} or [] around a lette
 Console.WriteLine("To exit press q and Enter.");
 while  (true)
 {
-    
     string word = Console.ReadLine();
     if (word == "q") break;
     Scrabble scrabble = new Scrabble(word);
     Console.WriteLine($"{scrabble.score()}");
-
-
 }
 
 Console.WriteLine("Exiting... Thanks for playing!");

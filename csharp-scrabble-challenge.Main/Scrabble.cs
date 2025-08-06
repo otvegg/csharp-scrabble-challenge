@@ -47,8 +47,8 @@ namespace csharp_scrabble_challenge.Main
         public int score()
         {
             int sum = 0;
-            bool openCurly = false;
-            bool openHard = false;
+            int openCurly = 0;
+            int openHard = 0;
             int BonusMultiplier = 1; // 1 -> no bonus, 2 -> double, 3 -> triple
             foreach (char item in _word)
             {
@@ -56,23 +56,24 @@ namespace csharp_scrabble_challenge.Main
                 if (char.IsNumber(item)) return 0;
                 if (item == '{')
                 {
-                    openCurly = true;
+                    openCurly++;
                     BonusMultiplier = BonusMultiplier * 2;
                 }
                 else if (item == '[') 
                 {
-                    openHard = true;
+                    openHard++;
                     BonusMultiplier = BonusMultiplier * 3; 
                 }
                 else if (item == '}')
                 {
-
-                    if (!openCurly) return 0;
+                    if (openCurly == 0) return 0;
+                    openCurly--;
                     BonusMultiplier = BonusMultiplier / 2;
                 }
                 else if (item == ']') 
                 {
-                    if (!openHard) return 0;
+                    if (openHard == 0) return 0;
+                    openHard--;
                     BonusMultiplier = BonusMultiplier / 3;
                 }
                 else
@@ -80,7 +81,6 @@ namespace csharp_scrabble_challenge.Main
                     char letter = char.Parse(item.ToString().ToUpper());
                     sum = sum + _dictionary[letter] * BonusMultiplier;
                 }
-
             }
             return sum;
         }
